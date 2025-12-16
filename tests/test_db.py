@@ -1,30 +1,33 @@
 import unittest
-import sqlite3
 import os
+import sqlite3
+
+# ВАЖНО: импорт создаёт таблицы
+import bot.database.models
 
 DB_PATH = "study.db"
 
 
 class TestDatabase(unittest.TestCase):
 
-    def test_database_file_exists(self):
-        """Проверка, что файл базы данных существует"""
+    def setUp(self):
+        """Подключение к базе перед каждым тестом"""
         self.assertTrue(
             os.path.exists(DB_PATH),
             "Файл базы данных study.db не найден"
         )
+        self.conn = sqlite3.connect(DB_PATH)
+        self.cursor = self.conn.cursor()
+
+    def tearDown(self):
+        self.conn.close()
 
     def test_tables_created(self):
-        """Проверка наличия всех таблиц"""
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        cursor.execute(
+        """Проверка, что все таблицы существуют"""
+        self.cursor.execute(
             "SELECT name FROM sqlite_master WHERE type='table';"
         )
-        tables = [row[0] for row in cursor.fetchall()]
-
-        conn.close()
+        tables = [row[0] for row in self.cursor.fetchall()]
 
         self.assertIn("schedule", tables)
         self.assertIn("homework", tables)
@@ -32,26 +35,19 @@ class TestDatabase(unittest.TestCase):
 
     def test_insert_and_select_goal(self):
         """Проверка вставки и чтения данных"""
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        cursor.execute(
+        self.cursor.execute(
             "INSERT INTO goals (user_id, goal, progress) VALUES (?, ?, ?)",
-            (999, "Тестовая цель", 50)
+            (1, "CI Test Goal", 75)
         )
-        conn.commit()
+        self.conn.commit()
 
-        cursor.execute(
-            "SELECT goal, progress FROM goals WHERE user_id=?",
-            (999,)
+        self.cursor.execute(
+            "SELECT goal, progress FROM goals WHERE user_id=1"
         )
-        result = cursor.fetchone()
+        goal, progress = self.cursor.fetchone()
 
-        conn.close()
-
-        self.assertIsNotNone(result)
-        self.assertEqual(result[0], "Тестовая цель")
-        self.assertEqual(result[1], 50)
+        self.assertEqual(goal, "CI Test Goal")
+        self.assertEqual(progress, 75)
 
 
 if __name__ == "__main__":
