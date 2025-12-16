@@ -1,0 +1,26 @@
+{
+  "goals": [
+    {
+      "id": "1",
+      "name": "Сдать сессию на отлично",
+      "type": "short_term",
+      "deadline": "2024-01-30",
+      "progress": 60,
+      "description": "Подготовка к 5 экзаменам",
+      "created": "2023-12-01"
+    }
+  ],
+  "achieved": [
+    {
+      "id": "0",
+      "name": "Изучить Python основы",
+      "achieved_date": "2023-11-30",
+      "description": "Пройти курс по Python"
+    }
+  ],
+  "progress": {
+    "total_goals": 5,
+    "completed_goals": 2,
+    "average_progress": 45
+  }
+}

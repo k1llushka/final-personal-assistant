@@ -1,0 +1,22 @@
+{
+  "daily_stats": {
+    "days_active": 15,
+    "tasks_completed": 42,
+    "lessons_attended": 30,
+    "study_hours": 75.5,
+    "streak_days": 5
+  },
+  "weekly_stats": {
+    "productivity": [80, 65, 90, 70, 85],
+    "tasks_completed": [8, 6, 9, 7, 8],
+    "goals_progress": [10, 15, 20, 25, 30]
+  },
+  "productivity": {
+    "score": 78,
+    "trend": "up",
+    "recommendations": [
+      "Улучшить распределение времени",
+      "Делать больше перерывов"
+    ]
+  }
+}
