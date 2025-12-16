@@ -1,4 +1,4 @@
-name: Study Helper Bot CI Pipeline
+name: Final Study Bot CI
 
 on:
   push:
@@ -11,32 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Забираем код
-      - name: Checkout repository
+      # 1. Забираем репозиторий
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Python
+      # 2. Устанавливаем Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3️⃣ pip
+      # 3. Обновляем pip
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
-      # 4️⃣ Зависимости
+      # 4. Устанавливаем зависимости
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # 5️⃣ ИНИЦИАЛИЗАЦИЯ БД (КЛЮЧЕВО!)
+      # 5. ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ (ОБЯЗАТЕЛЬНО)
       - name: Initialize database
         run: |
           python - <<EOF
           import bot.database.models
-          print("Database initialized")
+          print("Database initialized successfully")
           EOF
 
-      # 6️⃣ Тесты
-      - name: Run unit tests
+      # 6. Запуск тестов
+      - name: Run tests
         run: python -m unittest discover tests
